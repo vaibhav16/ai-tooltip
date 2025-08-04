@@ -11,6 +11,7 @@ export default defineConfig({
     //   gzipSize: true,
     //   brotliSize: true,
     // })
+    
   ],
   // base: '/ai-tooltip/',
   build: {
