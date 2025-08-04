@@ -12,7 +12,7 @@ export default defineConfig({
     //   brotliSize: true,
     // })
   ],
-  base: '/ai-tooltip/',
+  // base: '/ai-tooltip/',
   build: {
     rollupOptions: {
       output: {
