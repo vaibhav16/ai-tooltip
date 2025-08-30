@@ -18,7 +18,7 @@ export const getTooltipResponseAsk = (prompt, debug = false, options = {}) => {
   return makeApiRequest(prompt, debug, options);
 };
 
-async function makeRateLimitedRequest(prompt, debug, options) {
+async function makeRateLimitedRequest(prompt, debug = false, options = {}) {
   const now = Date.now();
   const timeSinceLastRequest = now - lastRequestTime;
   const delayNeeded = Math.max(RATE_LIMIT_MS - timeSinceLastRequest, 0);
@@ -38,7 +38,7 @@ async function makeApiRequest(prompt, debug = false, options = {}) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-  const payload = createRequestPayload(prompt);
+  const payload = createRequestPayload(prompt, options);
   const headers = createRequestHeaders();
 
   try {
@@ -78,20 +78,45 @@ async function makeApiRequest(prompt, debug = false, options = {}) {
   }
 }
 
-function createRequestPayload(prompt) {
+function createRequestPayload(prompt, options = {}) {
+  const isConversational = options.isConversational || prompt.includes("Previous conversation context");
+  
+  const systemPrompt = isConversational 
+    ? `You are an expert HR/finance SaaS dashboard assistant with deep knowledge of Workday-style applications. You excel at:
+
+• Understanding context from previous conversations
+• Providing detailed, actionable explanations
+• Connecting related concepts and workflows
+• Suggesting relevant follow-up topics
+• Using professional but accessible language
+
+When answering follow-up questions:
+• Reference previous context when relevant
+• Build upon earlier explanations
+• Provide practical examples and use cases
+• Anticipate what users might want to know next
+• Maintain consistency with previous answers
+
+Always be helpful, accurate, and contextually aware.`
+    : `You are a helpful assistant in a SaaS dashboard. Provide clear, concise answers to HR or payroll-related user questions.`;
+
   return {
     model: DEFAULT_MODEL,
     messages: [
       {
         role: "system",
-        content:
-          "You are a helpful assistant in a SaaS dashboard. Provide clear, concise answers to HR or payroll-related user questions.",
+        content: systemPrompt,
       },
       {
         role: "user",
         content: prompt,
       },
     ],
+    temperature: isConversational ? 0.3 : 0.1, // Lower temperature for more consistent follow-up responses
+    max_tokens: isConversational ? 800 : 400, // More tokens for conversational responses
+    top_p: 0.9,
+    frequency_penalty: isConversational ? 0.1 : 0, // Slight frequency penalty for conversational responses
+    presence_penalty: isConversational ? 0.1 : 0, // Slight presence penalty for conversational responses
   };
 }
 

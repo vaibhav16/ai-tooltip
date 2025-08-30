@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import CustomBarChart from "./BarChart";
 import SmartTooltip from "./SmartTooltip";
+import EnhancedSmartTooltip from "./EnhancedSmartTooltip";
 
 const candidates = [
   { name: "Riya Mehta", role: "Frontend Engineer", yoe: 3, notice: "15 days", status: "Interviewing" },
@@ -37,15 +38,15 @@ export default function HiringAnalytics() {
       <Container maxWidth={false} sx={{ px: 4, width: "100%" }}>
         {/* Heading */}
         <Typography variant="h4" gutterBottom>
-          <SmartTooltip keyword="Hiring Analytics Dashboard">
+          <EnhancedSmartTooltip keyword="Hiring Analytics Dashboard">
             Hiring Analytics
-          </SmartTooltip>
+          </EnhancedSmartTooltip>
         </Typography>
 
         {/* Bar Chart */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
           <Typography variant="h6"></Typography>
-          <SmartTooltip keyword="Hires by Month"  >Hires by Month </SmartTooltip>
+          <EnhancedSmartTooltip keyword="Hires by Month"  >Hires by Month </EnhancedSmartTooltip>
         </Box>
 
         <Paper elevation={3} sx={{ p: 3, mb: 5, width: "100%" }}>
@@ -56,9 +57,9 @@ export default function HiringAnalytics() {
 
         {/* Metrics Table */}
         <Typography variant="h6" gutterBottom>
-          <SmartTooltip keyword="Key Hiring Metrics">
+          <EnhancedSmartTooltip keyword="Key Hiring Metrics">
             Key Metrics
-          </SmartTooltip>
+          </EnhancedSmartTooltip>
         </Typography>
         <TableContainer component={Paper} sx={{ mb: 5 }}>
           <Table size="small">
@@ -66,9 +67,9 @@ export default function HiringAnalytics() {
               {metrics.map((metric, index) => (
                 <TableRow key={index}>
                   <TableCell sx={{ fontWeight: "bold", width: "50%" }}>
-                    <SmartTooltip keyword={metric.title}>
+                    <EnhancedSmartTooltip keyword={metric.title}>
                       {metric.title}
-                    </SmartTooltip>
+                    </EnhancedSmartTooltip>
                   </TableCell>
                   <TableCell>{metric.value}</TableCell>
                 </TableRow>
@@ -79,28 +80,28 @@ export default function HiringAnalytics() {
 
         {/* Candidates Table */}
         <Typography variant="h6" gutterBottom>
-          <SmartTooltip keyword="Candidates Table">
+          <EnhancedSmartTooltip keyword="Candidates Table">
             Candidates
-          </SmartTooltip>
+          </EnhancedSmartTooltip>
         </Typography>
         <TableContainer component={Paper} sx={{ mb: 5 }}>
           <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <SmartTooltip keyword="Candidate Name">Name</SmartTooltip>
+                  <EnhancedSmartTooltip keyword="Candidate Name">Name</EnhancedSmartTooltip>
                 </TableCell>
                 <TableCell>
-                  <SmartTooltip keyword="Candidate Role">Role</SmartTooltip>
+                  <EnhancedSmartTooltip keyword="Candidate Role">Role</EnhancedSmartTooltip>
                 </TableCell>
                 <TableCell>
-                  <SmartTooltip keyword="Years of Experience">Experience</SmartTooltip>
+                  <EnhancedSmartTooltip keyword="Years of Experience">Experience</EnhancedSmartTooltip>
                 </TableCell>
                 <TableCell>
-                  <SmartTooltip keyword="Notice Period">Notice Period</SmartTooltip>
+                  <EnhancedSmartTooltip keyword="Notice Period">Notice Period</EnhancedSmartTooltip>
                 </TableCell>
                 <TableCell>
-                  <SmartTooltip keyword="Hiring Status">Status</SmartTooltip>
+                  <EnhancedSmartTooltip keyword="Hiring Status">Status</EnhancedSmartTooltip>
                 </TableCell>
               </TableRow>
             </TableHead>
