@@ -164,9 +164,19 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
+  // When a suggestion is clicked, fill the input and immediately ask the question
+  const handleSuggestionClick = async (suggestion) => {
     setCurrentQuestion(suggestion);
     setShowSuggestions(false);
+    // Wait for state to update, then ask
+    setTimeout(async () => {
+      await askQuestion(suggestion);
+      setCurrentQuestion("");
+      setShowSuggestions(false);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }, 0);
   };
 
   // Function to check if content should show suggestions

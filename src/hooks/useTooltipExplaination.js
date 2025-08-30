@@ -63,13 +63,11 @@ IMPORTANT:
     }
   }, [keyword]);
 
+
+  // Only set up the throttled function, but do not auto-fetch on mount or keyword change
   useEffect(() => {
     throttledFetchRef.current = throttle(fetchExplanation, 3000);
   }, [fetchExplanation]);
-
-  useEffect(() => {
-    throttledFetchRef.current?.();
-  }, [keyword]);
 
   return {
     basicExplanation,
