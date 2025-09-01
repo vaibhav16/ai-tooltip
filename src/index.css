@@ -1,76 +1,106 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
 
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: #f6f8fa;
+  color: #23272f;
+  letter-spacing: 0.01em;
+  font-size: 16px;
+}
+
+a {
+  font-weight: 500;
+  color: #1976d2;
+  text-decoration: inherit;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #1565c0;
+}
+
+button {
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  /* background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%); */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.5em;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+button:hover {
+  background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
+  transform: translateY(-2px) scale(1.03);
+}
+button:focus,
+button:focus-visible {
+  outline: 3px solid #90caf9;
+  outline-offset: 2px;
+}
+button:disabled {
+  background: #e0e0e0;
+  color: #bdbdbd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Card and Paper styles for a modern look */
+.MuiPaper-root, .card, .custom-card {
+  border-radius: 16px !important;
+  box-shadow: 0 2px 16px rgba(25, 118, 210, 0.08) !important;
+  background: #fff !important;
+  padding: 1.5em !important;
+}
+
+/* Dialog improvements */
+.MuiDialog-paper {
+  border-radius: 18px !important;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.12) !important;
+}
+
+/* Tooltip improvements */
+.MuiTooltip-tooltip {
+  font-size: 1em !important;
+  background: #fff !important;
+  color: #23272f !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10) !important;
+  padding: 1em 1.2em !important;
+  border: 1px solid #e3e8ee !important;
+}
+
+/* Chip and Alert improvements */
+.MuiChip-root {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+.MuiAlert-root {
+  border-radius: 10px !important;
+  font-size: 1em !important;
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 0.5em;
+}
+
+/* Responsive improvements */
+@media (max-width: 600px) {
+  .MuiPaper-root, .card, .custom-card {
+    padding: 1em !important;
+  }
+  .MuiDialog-paper {
+    padding: 0.5em !important;
+  }
 }
 

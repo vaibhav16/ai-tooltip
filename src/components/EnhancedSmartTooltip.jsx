@@ -63,14 +63,15 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
   // State for scroll position
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  // Auto-scroll to bottom when new messages are added
+
+  // Auto-scroll to bottom when new messages are added or a new question is typed
   useEffect(() => {
-    if (messages.length > 0 && dialogOpen) {
+    if (dialogOpen) {
       setTimeout(() => {
         scrollToBottom();
       }, 100);
     }
-  }, [messages, dialogOpen]);
+  }, [messages.length, dialogOpen]);
 
   // Auto-scroll to bottom when loading state changes
   useEffect(() => {
@@ -195,9 +196,10 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
           setTooltipOpen(true);
           fetchExplanation();
         }}
+        TransitionComponent={Fade}
         title={
-          <Box maxWidth={300}>
-            <Typography variant="body2" sx={{ mb: 1 }}>
+          <Box maxWidth={320}>
+            <Typography variant="body2" sx={{ mb: 1, color: '#23272f', fontWeight: 500 }}>
               {basicExplanation}
             </Typography>
             <Button
@@ -206,47 +208,71 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
               onClick={handleDialogOpen}
               sx={{ 
                 width: "100%",
-                backgroundColor: '#1976d2',
-                color: 'white',
-                fontWeight: 'bold',
+                fontWeight: 700,
+                borderRadius: 2,
+                fontSize: '0.95rem',
+                py: 1,
+                px: 2,
+                boxShadow: 1,
                 textTransform: 'none',
-                fontSize: '0.875rem',
-                py: 0.75,
-                px: 1.5,
                 '&:hover': {
-                  backgroundColor: '#1565c0',
-                  transform: 'translateY(-1px)',
-                  boxShadow: 2
+                  background: 'linear-gradient(90deg, #1565c0 0%, #1976d2 100%)',
+                  boxShadow: 3,
+                  transform: 'translateY(-1px) scale(1.03)'
                 }
               }}
             >
-              Ask Follow-up Questions
+              <HelpOutlineIcon sx={{ mr: 1, fontSize: 18 }} /> Ask Follow-up Questions
             </Button>
           </Box>
         }
       >
-        <IconButton size="small">
-          <HelpOutlineIcon fontSize="small" />
+        <IconButton
+          size="small"
+          sx={{
+            color: '#23272f',
+            bgcolor: '#f8f5f1', // light beige
+            border: '2px solid #d6cec2',
+            borderRadius: '50%',
+            boxShadow: 1,
+            width: 32,
+            height: 32,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'background 0.15s, border 0.15s',
+            '&:hover': {
+              bgcolor: '#f3ede6',
+              border: '2px solid #a89c8e',
+            },
+          }}
+        >
+          <HelpOutlineIcon fontSize="small" sx={{ fontWeight: 700, fontSize: 20, color: '#23272f' }} />
         </IconButton>
       </Tooltip>
 
-              <Dialog 
-          open={dialogOpen} 
-          onClose={handleDialogClose} 
-          maxWidth="md" 
-          fullWidth
-          PaperProps={{
-            sx: { minHeight: "70vh" }
-          }}
-        >
-        <DialogTitle>
+      <Dialog 
+        open={dialogOpen} 
+        onClose={handleDialogClose} 
+        maxWidth="md" 
+        fullWidth
+        PaperProps={{
+          sx: { minHeight: "70vh", borderRadius: 4, boxShadow: 8, background: '#fafdff' }
+        }}
+        TransitionComponent={Fade}
+      >
+        <DialogTitle sx={{ pb: 1.5, borderBottom: '1px solid #e3e8ee', background: '#f6f8fa' }}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6">AI Assistant: {keyword}</Typography>
+            <Typography variant="h6" sx={{ color: '#1976d2', fontWeight: 700, letterSpacing: 0.5 }}>
+              <HelpOutlineIcon sx={{ mr: 1, fontSize: 24, verticalAlign: 'middle' }} />
+              AI Assistant: {keyword}
+            </Typography>
             <Box>
               <MuiIconButton 
                 size="small" 
                 onClick={handleRefreshContext}
                 title="Refresh context"
+                sx={{ color: '#1976d2', bgcolor: '#e3f2fd', mr: 1, '&:hover': { bgcolor: '#bbdefb' } }}
               >
                 <RefreshIcon />
               </MuiIconButton>
@@ -256,6 +282,7 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
                   onClick={clearConversation}
                   title="Clear conversation"
                   color="warning"
+                  sx={{ color: '#d32f2f', bgcolor: '#ffebee', '&:hover': { bgcolor: '#ffcdd2' } }}
                 >
                   <ClearIcon />
                 </MuiIconButton>
@@ -269,25 +296,26 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
           onScroll={handleScroll}
           sx={{ 
             position: 'relative',
+            background: '#fafdff',
             '&::-webkit-scrollbar': {
               width: '8px',
             },
             '&::-webkit-scrollbar-track': {
-              background: '#f1f1f1',
+              background: '#e3e8ee',
               borderRadius: '4px',
             },
             '&::-webkit-scrollbar-thumb': {
-              background: '#c1c1c1',
+              background: '#b3c6e0',
               borderRadius: '4px',
               '&:hover': {
-                background: '#a8a8a8',
+                background: '#90caf9',
               },
             },
           }}
         >
           {/* Context Information */}
           {detailedContext && (
-            <Alert severity="info" sx={{ mb: 2 }}>
+            <Alert severity="info" sx={{ mb: 2, borderRadius: 2, background: '#e3f2fd', color: '#1976d2' }}>
               <Typography variant="body2" fontWeight="bold" gutterBottom>
                 Context for {keyword}:
               </Typography>
@@ -299,8 +327,8 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
 
           {/* Conversation History */}
           {hasConversationHistory && (
-            <Paper elevation={1} sx={{ mb: 3, p: 2, maxHeight: 300, overflowY: "auto" }}>
-              <Typography variant="subtitle2" gutterBottom color="primary">
+            <Paper elevation={1} sx={{ mb: 3, p: 2, maxHeight: 300, overflowY: "auto", background: '#f6f8fa', borderRadius: 3 }}>
+              <Typography variant="subtitle2" gutterBottom sx={{ color: '#1976d2', fontWeight: 600 }}>
                 Conversation History ({conversationLength} exchanges)
               </Typography>
               <List dense>
@@ -308,21 +336,21 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
                   <ListItem key={message.id} sx={{ 
                     flexDirection: 'column', 
                     alignItems: 'flex-start',
-                    bgcolor: message.role === 'user' ? 'primary.50' : 'grey.50',
+                    bgcolor: message.role === 'user' ? '#e3f2fd' : '#f1f8e9',
                     mb: 1,
-                    borderRadius: 1,
-                    p: 1
+                    borderRadius: 2,
+                    p: 1.2
                   }}>
                     <Chip 
                       label={message.role === 'user' ? 'Question' : 'Answer'} 
                       size="small" 
-                      color={message.role === 'user' ? 'primary' : 'secondary'} 
+                      color={message.role === 'user' ? 'primary' : 'success'} 
                       variant="outlined"
-                      sx={{ mb: 1 }}
+                      sx={{ mb: 1, fontWeight: 600 }}
                     />
                     <Box sx={{ width: '100%' }}>
                       {message.role === 'user' ? (
-                        <Typography variant="body2">
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
                           {message.content}
                         </Typography>
                       ) : (
@@ -341,8 +369,8 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
           )}
 
           {/* Question Input Section */}
-          <Paper elevation={1} sx={{ p: 2, mb: 2 }}>
-            <Typography variant="subtitle2" gutterBottom>
+          <Paper elevation={1} sx={{ p: 2, mb: 2, background: '#fff', borderRadius: 3, boxShadow: 2 }}>
+            <Typography variant="subtitle2" gutterBottom sx={{ color: '#1976d2', fontWeight: 600 }}>
               Ask a follow-up question:
             </Typography>
             <TextField
@@ -355,24 +383,27 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
               onChange={(e) => setCurrentQuestion(e.target.value)}
               onKeyPress={handleKeyPress}
               disabled={isLoading}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, borderRadius: 2, background: '#f6f8fa' }}
             />
-            
             <Button 
               onClick={handleAskQuestion} 
               variant="contained" 
               disabled={isLoading || !currentQuestion.trim()}
-              sx={{ width: '100%' }}
+              sx={{ width: '100%',
+                 fontWeight: 700, 
+                 borderRadius: 2, 
+                 fontSize: '1rem',
+                  py: 1, boxShadow: 3 } }
             >
-              {isLoading ? "Asking..." : "Ask Question"}
+              {isLoading ? <><CircularProgress size={18} sx={{ mr: 1 }} /> Asking...</> : 'Ask Question'}
             </Button>
           </Paper>
 
           {/* Loading State */}
           {isLoading && (
-            <Box display="flex" alignItems="center" gap={1} sx={{ mb: 2 }}>
-              <CircularProgress size={20} />
-              <Typography variant="body2" color="text.secondary">
+            <Box display="flex" alignItems="center" gap={1} sx={{ mb: 2, justifyContent: 'center' }}>
+              <CircularProgress size={22} color="primary" />
+              <Typography variant="body2" color="primary" sx={{ fontWeight: 500 }}>
                 AI is thinking...
               </Typography>
             </Box>
@@ -381,10 +412,10 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
           {/* Intelligent Suggestions */}
           {shouldShowSuggestions() && (
             <Fade in={showSuggestions}>
-              <Paper elevation={1} sx={{ p: 2, mb: 2 }}>
+              <Paper elevation={1} sx={{ p: 2, mb: 2, background: '#e3f2fd', borderRadius: 3, boxShadow: 1 }}>
                 <Box display="flex" alignItems="center" gap={1} sx={{ mb: 2 }}>
                   <LightbulbIcon color="primary" />
-                  <Typography variant="subtitle2" color="primary">
+                  <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 600 }}>
                     Suggested Follow-up Questions:
                   </Typography>
                 </Box>
@@ -395,14 +426,17 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
                       button 
                       onClick={() => handleSuggestionClick(suggestion)}
                       sx={{ 
-                        borderRadius: 1, 
+                        borderRadius: 2, 
                         mb: 0.5,
-                        '&:hover': { bgcolor: 'primary.50' }
+                        bgcolor: '#fff',
+                        boxShadow: 0,
+                        transition: 'background 0.15s',
+                        '&:hover': { bgcolor: '#bbdefb' }
                       }}
                     >
                       <ListItemText 
                         primary={suggestion}
-                        primaryTypographyProps={{ variant: 'body2' }}
+                        primaryTypographyProps={{ variant: 'body2', sx: { fontWeight: 500 } }}
                       />
                     </ListItem>
                   ))}
@@ -413,8 +447,8 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
 
           {/* Conversation Tips */}
           {!hasConversationHistory && (
-            <Alert severity="success" sx={{ mt: 2 }}>
-              <Typography variant="body2">
+            <Alert severity="success" sx={{ mt: 2, borderRadius: 2, background: '#e8f5e9', color: '#388e3c' }}>
+              <Typography variant="body2" sx={{ fontWeight: 500 }}>
                 💡 <strong>Pro Tip:</strong> This AI assistant remembers our conversation and provides contextual answers. 
                 Ask follow-up questions to dive deeper into any topic!
               </Typography>
@@ -427,6 +461,7 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
               <Button 
                 variant="outlined" 
                 size="small"
+                sx={{ borderRadius: 2, fontWeight: 600, color: '#1976d2', borderColor: '#1976d2', px: 2, py: 1, '&:hover': { background: '#e3f2fd', borderColor: '#1565c0' } }}
                 onClick={() => {
                   const summary = getConversationSummary();
                   navigator.clipboard.writeText(summary);
@@ -455,8 +490,10 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
                 right: 16,
                 zIndex: 1000,
                 boxShadow: 3,
+                color: '#fff',
                 '&:hover': {
                   boxShadow: 6,
+                  background: 'linear-gradient(90deg, #1565c0 0%, #1976d2 100%)',
                 }
               }}
             >
