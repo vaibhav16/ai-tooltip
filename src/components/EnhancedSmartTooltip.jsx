@@ -186,8 +186,13 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
   };
 
   return (
-    <Box component="span" sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
-      {children && <span>{children}</span>}
+    <Box 
+      component="span" 
+      sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}
+      data-enhanced-tooltip="true"
+      className="enhanced-smart-tooltip"
+    >
+      {children && <span data-no-tooltip="true">{children}</span>}
 
       <Tooltip
         open={tooltipOpen}
@@ -229,6 +234,7 @@ const EnhancedSmartTooltip = ({ keyword, children }) => {
       >
         <IconButton
           size="small"
+          data-no-tooltip="true"
           sx={{
             color: '#23272f',
             bgcolor: '#f8f5f1', // light beige

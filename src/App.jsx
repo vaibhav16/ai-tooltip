@@ -22,12 +22,15 @@
 
 // App.jsx
 import HiringAnalytics from "./components/HiringAnalytics";
+import GlobalTooltipProvider from "./components/GlobalTooltipProvider";
 
 export default function App() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <HiringAnalytics />
-    </div>
+    <GlobalTooltipProvider>
+      <div className="bg-gray-100 min-h-screen">
+        <HiringAnalytics />
+      </div>
+    </GlobalTooltipProvider>
   );
 }
 
